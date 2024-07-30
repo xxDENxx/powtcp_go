@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  server:
+    build:
+      context: server/
+      dockerfile: Dockerfile
+    image: server:latest
+    depends_on:
+      - redis
+    env_file:
+      - server/.env
+
+  client:
+    build:
+      context: client/
+      dockerfile: Dockerfile
+    image: client:latest
+    depends_on:
+      - server
+    env_file:
+      - client/.env
+
+  redis:
+    image: redis:7
+
+networks:
+  powtcp-network:
